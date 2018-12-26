@@ -31,5 +31,8 @@ public class MainBinaryTree {
         System.out.println();
         System.out.println("中序遍历");
         binaryTree.notCenterOrder();
+        System.out.println();
+        System.out.println("后序遍历");
+        binaryTree.nonEndOrder();
     }
 }

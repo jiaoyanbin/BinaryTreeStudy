@@ -32,6 +32,12 @@ public class BinaryTree {
         notCenterOrder(root);
     }
 
+    /**
+     * 用栈的方式后序遍历
+     */
+    public void nonEndOrder(){
+        nonEndOrder(root);
+    }
     public void nonPreOrder(TreeNode treeNode){
         if (treeNode == null) {
             return;
@@ -64,6 +70,40 @@ public class BinaryTree {
             System.out.print(curNode.data);
             curNode = curNode.rightChild;
         }
+    }
+
+    public void nonEndOrder(TreeNode node){
+        if (node == null) {
+            return;
+        }
+        TreeNode curNode = root;
+        TreeNode lastNode = null;
+
+        Stack<TreeNode<String>> stack = new Stack<>();
+        while (curNode!=null || !stack.empty()){
+            while (curNode != null){
+                //压入左子树结点
+                stack.push(curNode);
+                curNode = curNode.leftChild;
+            }
+
+            curNode = stack.get(stack.size()-1);
+
+            if (curNode.rightChild != null && (lastNode != curNode.rightChild))//考虑栈顶结点的右子树结点。存在且没被访问过，将右子树结点压入栈中
+            {
+                curNode = curNode.rightChild;
+            }else if ((curNode.rightChild == null) || (lastNode == curNode.rightChild)){//右子树结点为空或者已经被访问过，则访问栈顶结点并弹出
+                System.out.print(curNode.data);
+                lastNode = curNode;
+                stack.pop();
+                //cur置空作用在于当原栈顶结点被访问并弹出后，下一层while是将当前栈顶结点的左子树入栈，当前栈顶结点的左子树已经被遍历过，
+                //因此会造成死循环，所以将cur置空，直接考虑当前栈顶结点的右子树
+                //一旦某个结点入栈，首先会遍历这个结点的左子树，然后考虑右子树的情况
+                curNode = null;
+
+            }
+        }
+
     }
     //-----------------------------------------------------------------栈方式遍历结束
 
