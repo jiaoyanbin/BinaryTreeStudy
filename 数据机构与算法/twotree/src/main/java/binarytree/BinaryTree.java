@@ -1,5 +1,8 @@
 package binarytree;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -55,6 +58,14 @@ public class BinaryTree {
             }
         }
     }
+
+    /**
+     * 优先打印左边，然后打印父亲，然后打印右边
+     * @param root
+     *
+     * 先将根节点压栈，取左孩子压栈，如果左孩子没有左孩子了，左孩子出栈打印，
+     * 并取右孩子入栈（如果有，没有右孩子，弹出一个（此时弹出的肯定是父亲）然后取右孩子）
+     */
     private void notCenterOrder(TreeNode<String> root) {
         if (root == null) {
             return;
@@ -86,7 +97,7 @@ public class BinaryTree {
                 stack.push(curNode);
                 curNode = curNode.leftChild;
             }
-
+            //获取的是栈顶的节点
             curNode = stack.get(stack.size()-1);
 
             if (curNode.rightChild != null && (lastNode != curNode.rightChild))//考虑栈顶结点的右子树结点。存在且没被访问过，将右子树结点压入栈中
@@ -135,7 +146,7 @@ public class BinaryTree {
         if (node == null) {
             return;
         }
-        System.out.print(node.data);
+        System.out.print(node.data+"  "+node.index);
         preOrder(node.leftChild);
         preOrder(node.rightChild);
     }
@@ -197,6 +208,10 @@ public class BinaryTree {
         }
         return 1+getSize(node.leftChild)+getSize(node.rightChild);
     }
+    //-------------------------------------------------------------------------------
+
+    /*****************************生成二叉树********************************************/
+
     /**
      * 构建二叉树
      *                  A
@@ -216,13 +231,60 @@ public class BinaryTree {
         root.rightChild = nodeC;
 
         nodeB.leftChild = nodeD;
+
         nodeB.rightChild = nodeE;
 
         nodeC.rightChild = nodeF;
     }
 
     /**
-     * 二叉树节点结构类
+     * 用前序生成二叉树
+     *      *                  A
+     *      *                /  \
+     *      *              B     C
+     *      *            / \    / \
+     *      *           D   E  #   F
+     *      *         /\   /\     /\
+     *      *        # #  # #    # #
+     *      ABD##E##C#F##
+     *
+     *      A  0B  1D  2E  5C  8F  10
+     */
+    public void createBinaryTreePre(){
+        String [] dataArray ={"A","B","D","#","#","E","#","#","C","#","F","#","#"};
+        ArrayList<String> arrayList = new ArrayList<>();
+        List<String> list = Arrays.asList(dataArray);
+        arrayList.addAll(list);
+        createBinaryTreePre(list.size(),arrayList);
+    }
+    public TreeNode<String> createBinaryTreePre(int size,ArrayList<String> data){
+        if (data.size() == 0) {
+            return null;
+        }
+        String first = data.get(0);
+        TreeNode<String> node = null;
+        int index = size-data.size();
+        if(first.equals("#")){
+            node = null;
+            data.remove(0);
+            return node;
+        }
+        node = new TreeNode<>(index,first);
+        if (index==0) {
+            root = node;
+
+        }
+        data.remove(0);
+        node.leftChild = createBinaryTreePre(size,data);
+        node.rightChild= createBinaryTreePre(size,data);
+
+        return node;
+    }
+    //----------------------------------------------------------生成二叉树end
+
+    /**
+     *
+     * @param <T>
      */
     public class TreeNode<T>{
         private int index;

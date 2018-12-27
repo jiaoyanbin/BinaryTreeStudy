@@ -4,13 +4,13 @@ public class MainBinaryTree {
     public static void main(String [] args){
         BinaryTree binaryTree = new BinaryTree();
 
-        /**
-         * 构建二叉树
-         *                  A
-         *                /  \
-         *              B     C
-         *            / \      \
-         *           D   E      F
+        /*
+          构建二叉树
+                           A
+                         /  \
+                       B     C
+                     / \      \
+                    D   E      F
          */
         binaryTree.createBinaryTree();
 
@@ -34,5 +34,41 @@ public class MainBinaryTree {
         System.out.println();
         System.out.println("后序遍历");
         binaryTree.nonEndOrder();
+
+
+        /*
+          用递归法前序生成二叉树
+               *                  A
+               *                /  \
+               *              B     C
+               *            / \    / \
+               *           D   E  #   F
+               *         /\   /\     /\
+               *        # #  # #    # #
+               ABD##E##C#F##
+
+               A  0B  1D  2E  5C  8F  10
+         */
+        binaryTree.createBinaryTreePre();
+        binaryTree.preOrder();
+
+
+        /*
+          用栈法前序生成二叉树 TODO
+               *                  A
+               *                /  \
+               *              B     C
+               *            / \    / \
+               *           D   E  #   F
+               *         /\   /\     /\
+               *        # #  # #    # #
+               ABD##E##C#F##
+
+               A  0B  1D  2E  5C  8F  10
+         */
+
+
+
+
     }
 }
